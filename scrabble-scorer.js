@@ -34,25 +34,70 @@ function oldScrabbleScorer(word) {
 
 function initialPrompt() {
    let word = input.question("Let's play some scrabble! Enter a word: ");
-   console.log(oldScrabbleScorer(word));
+   word = word.toUpperCase();
+   return word;
+   // console.log(word);
+   // console.log(oldScrabbleScorer(word));
+   // console.log(simpleScorer(word));
+   // console.log(vowelBonusScorer(word));
 };
 
-let simpleScorer;
+let simpleScorer = function(word){
+   let score = word.length;
+   return score;
+};
 
-let vowelBonusScorer;
+let vowelBonusScorer = function(word){
+   let vowelArray = ["A","E","I","O","U"]; 
+   let score = 0;
+   for (let i = 0; i <word.length; i++){
+      if(vowelArray.includes(word[i])){
+         score+=3;
+         console.log(`${word[i]}: 3`);
+      }else {
+         score+=1;
+         console.log(`${word[i]}: 1`);
+      }
+   }
+   return score;
+};
 
 let scrabbleScorer;
 
-const scoringAlgorithms = [];
+const scoringAlgorithms = [
+   {"name": "Simple Score",
+   "description": "Each letter is worth 1 point",
+   "scoringfunction": simpleScorer
+   },
+   {"name": "Bonus Vowels",
+   "description": "Vowels are 3 pts, consonants are 1 pt.",
+   "scoringfunction": vowelBonusScorer
+   },
+   {"name": "ScrabbleScore",
+   "description": "traditional scrabble scoring",
+   "scoringfunction": oldScrabbleScorer
+   },
+];
 
-function scorerPrompt() {}
+function scorerPrompt() {
+   console.log("Choose a scoring prompt from the options below:")
+   for(let i = 0; i<scoringAlgorithms.length; i++){
+      console.log(`${i}: ${scoringAlgorithms[i].name}\t ${scoringAlgorithms[i].description}`)
+   }
+   let userChoice= input.question("Enter your choice here: ");
+      return scoringAlgorithms[userChoice];
+}
 
 function transform() {};
 
 let newPointStructure;
 
 function runProgram() {
-   initialPrompt();
+   let word = initialPrompt();
+   let choice = scorerPrompt();
+   console.log(`score for ${word} using ${choice.name}`);
+   console.log(`total score: ${choice.scoringfunction(word)}`);
+   
    
    
 }
