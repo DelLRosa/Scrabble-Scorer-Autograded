@@ -88,18 +88,25 @@ function scorerPrompt() {
       return scoringAlgorithms[userChoice];
 }
 
-function transform() {};
+function transform(oldPointStructure) {
+   let newPointStructure={}; // declares a new object to hold the new point structure
+   for(pointValue in oldPointStructure){ // iterate over each key in oldPointStructure
+      let letterArray = oldPointStructure[pointValue]; //assign array value to a seperate variable
+      for(let i=0;i<letterArray.length;i++){ // iterate over array 
+         newPointStructure[letterArray[i].toLowerCase()] = pointValue; 
+         //create new key for each letter, assign point value as the value. 
+      }
+   }
+   return newPointStructure; // return new object.
+};
 
-let newPointStructure;
+let newPointStructure = transform(oldPointStructure);
 
 function runProgram() {
    let word = initialPrompt();
    let choice = scorerPrompt();
    console.log(`score for ${word} using ${choice.name}`);
    console.log(`total score: ${choice.scoringfunction(word)}`);
-   
-   
-   
 }
 
 // Don't write any code below this line //
